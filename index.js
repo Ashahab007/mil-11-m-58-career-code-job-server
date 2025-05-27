@@ -51,7 +51,7 @@ async function run() {
       res.send(cursor);
     });
 
-    // 19.2 make the api for get the data by id
+    // 19.2 make the api for get the data by id to go to specific jobs
     app.get("/jobs/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
