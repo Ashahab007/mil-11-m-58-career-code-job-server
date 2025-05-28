@@ -81,6 +81,7 @@ async function run() {
         application.company_logo = job.company_logo;
       }
 
+      // 24.3
       res.send(result); // from this step u can check in browser url using query string(?) "http://localhost:3000/applications?email=job@cob.com" or "http://localhost:3000/applications?email=ashahab007@gmail.com"
       // Note: if u need multiple query use (&) example "http://localhost:3000/applications?email=ashahab007@gmail.com&age=29"
     });
