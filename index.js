@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
-// 15.0 mannually some data is input in data base. For this first go to mongodb server => cluster => browse collection => create database => fill the Database Name => Collection Name => then create. After created, in jobs u will find insert document. click on it and delete any data like ObjectID is present then paste ur data.
+// 15.0 mannually some data is input in data base. For this first go to mongodb server => cluster => browse collection => create database => fill the Database Name => Collection Name => then create. After created, in jobs u will find insert applicationument. click on it and delete any data like ObjectID is present then paste ur data.
 
 // 14.2 middleware
 app.use(cors());
@@ -35,7 +35,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-// 16.1 copy from the documentation
+// 16.1 copy from the applicationumentation
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -44,6 +44,11 @@ async function run() {
     // 18.1
     // Get the database and collection on which to run the operation
     const jobsCollections = client.db("carrerCode").collection("jobs");
+
+    // 23.7 as the we need the applicants data to the server so created another db for applications
+    const applicationsCollections = client
+      .db("carrerCode")
+      .collection("applications");
 
     // 18.2 send the hotjobs data to ui after that u will find the data manually by typing in browser url "http://localhost:3000/jobs"
     app.get("/jobs", async (req, res) => {
@@ -56,6 +61,15 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await jobsCollections.findOne(query);
+      res.send(result);
+    });
+
+    // 23.8 created api for sending form data to the server using post method
+    app.post("/applications", async (req, res) => {
+      //the application data is come to the req.body
+      const application = req.body;
+      console.log(application);
+      const result = await applicationsCollections.insertOne(application);
       res.send(result);
     });
 
