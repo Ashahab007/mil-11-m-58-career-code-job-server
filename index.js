@@ -35,7 +35,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-// 16.1 copy from the applicationumentation
+// 16.1 copy from the application documentation
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -45,7 +45,7 @@ async function run() {
     // Get the database and collection on which to run the operation
     const jobsCollections = client.db("carrerCode").collection("jobs");
 
-    // 23.7 as the we need the applicants data to the server so created another db for applications
+    // 23.7 as we need the applicants data to the server so created another db for applications
     const applicationsCollections = client
       .db("carrerCode")
       .collection("applications");
@@ -62,6 +62,27 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const result = await jobsCollections.findOne(query);
       res.send(result);
+    });
+
+    // 24.3 creating my application api to find the applicant by email and show in ui
+    app.get("/applications", async (req, res) => {
+      const email = req.query.email;
+      const query = { applicant: email }; //as we send the applicant data in applicant key from the form to db. so we will query by applicant: email
+
+      const result = await applicationsCollections.find(query).toArray();
+
+      // 26.0 But my requirement is show the job data that the applicant's applied (this is the bad method but we have to know)
+      for (const application of result) {
+        const jobId = application.jobId; //set the job id for query
+        const jobQuery = { _id: new ObjectId(jobId) };
+        const job = await jobsCollections.findOne(jobQuery);
+        application.title = job.title;
+        application.company = job.company;
+        application.company_logo = job.company_logo;
+      }
+
+      res.send(result); // from this step u can check in browser url using query string(?) "http://localhost:3000/applications?email=job@cob.com" or "http://localhost:3000/applications?email=ashahab007@gmail.com"
+      // Note: if u need multiple query use (&) example "http://localhost:3000/applications?email=ashahab007@gmail.com&age=29"
     });
 
     // 23.8 created api for sending form data to the server using post method
