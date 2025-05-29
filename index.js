@@ -64,6 +64,14 @@ async function run() {
       res.send(result);
     });
 
+    // 27.6 creating the api for save the job application to db
+
+    app.post("/jobs", async (req, res) => {
+      const newJob = req.body;
+      const result = await jobsCollections.insertOne(newJob);
+      res.send(result);
+    });
+
     // 24.3 creating my application api to find the applicant by email and show in ui
     app.get("/applications", async (req, res) => {
       const email = req.query.email;
