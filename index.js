@@ -113,6 +113,17 @@ async function run() {
       // Note: if u need multiple query use (&) example "http://localhost:3000/applications?email=ashahab007@gmail.com&age=29"
     });
 
+    // 29.4 creating the api of view applications i.e how many applicants are apply for current jobs
+    app.get("/applications/job/:job_id", async (req, res) => {
+      //একটা application এর particular job এর id গুলো নিব।
+      const job_id = req.params.job_id;
+
+      const query = { jobId: job_id }; //this jobId is created when user applied for the jobs we send specific job id to jobId key.
+
+      const result = await applicationsCollections.find(query).toArray();
+      res.send(result); //Now in browser url type http://localhost:3000/applications/job/68381e7bd1a23916a09f7939 to see the applicants
+    });
+
     // 23.8 created api for sending form data to the server using post method
     app.post("/applications", async (req, res) => {
       //the application data is come to the req.body
