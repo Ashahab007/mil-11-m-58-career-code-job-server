@@ -60,7 +60,7 @@ async function run() {
       if (email) {
         query.hremail = email;
       }
-      const cursor = await jobsCollections.find(query).toArray();
+      const cursor = await jobsCollections.find(query).toArray(); //now u can check in browser url http://localhost:3000/jobs?email=job.hr@cob.com
 
       // 18.2 commented due to we will send the data by 28.4
       // const cursor = await jobsCollections.find().toArray();
