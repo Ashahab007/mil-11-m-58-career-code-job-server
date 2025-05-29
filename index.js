@@ -54,20 +54,20 @@ async function run() {
     app.get("/jobs", async (req, res) => {
       // 28.4
       const email = req.query.email;
-      // 28.5
+      // 28.5 get an empty object for 18.2 operation i.e user email is absence it will show the all jobs data
       const query = {};
-      // 28.6
+      // 28.6 if user (recruiter) is present
       if (email) {
         query.hremail = email;
       }
       const cursor = await jobsCollections.find(query).toArray(); //now u can check in browser url http://localhost:3000/jobs?email=job.hr@cob.com
 
-      // 18.2 commented due to we will send the data by 28.4
+      // 18.2 commented due to we will send the data by 28.4 conditionally
       // const cursor = await jobsCollections.find().toArray();
       res.send(cursor);
     });
 
-    // 28.3 making api for my posted jobs to show in ui (but we will not follow this because it is difficult to maintain because sometimed it needs to find the email by company name or deadline then need to create too many get operation which is difficult to maintain. so we follow 28.4)
+    // 28.3 making api for my posted jobs to show in ui (but we will not follow this because it is difficult to maintain because sometimes it needs to find the email by company name or deadline then need to create too many get operation which is difficult to maintain. so we follow 28.4)
     /* app.get("/jobsbyemail", async (req, res) => {
       const email = req.query.email;
       const query = { hremail: email };
