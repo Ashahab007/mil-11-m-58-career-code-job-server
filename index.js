@@ -52,9 +52,28 @@ async function run() {
 
     // 18.2 send the hotjobs data to ui after that u will find the data manually by typing in browser url "http://localhost:3000/jobs"
     app.get("/jobs", async (req, res) => {
-      const cursor = await jobsCollections.find().toArray();
+      // 28.4
+      const email = req.query.email;
+      // 28.5
+      const query = {};
+      // 28.6
+      if (email) {
+        query.hremail = email;
+      }
+      const cursor = await jobsCollections.find(query).toArray();
+
+      // 18.2 commented due to we will send the data by 28.4
+      // const cursor = await jobsCollections.find().toArray();
       res.send(cursor);
     });
+
+    // 28.3 making api for my posted jobs to show in ui (but we will not follow this because it is difficult to maintain because sometimed it needs to find the email by company name or deadline then need to create too many get operation which is difficult to maintain. so we follow 28.4)
+    /* app.get("/jobsbyemail", async (req, res) => {
+      const email = req.query.email;
+      const query = { hremail: email };
+      const result = await jobsCollections.find(query).toArray();
+      res.send(result);// if u type in browser url http://localhost:3000/jobsbyemail?email=job.hr@cob.com u will get the jobs posted by specific email
+    }); */
 
     // 19.2 make the api for get the data by id to go to specific jobs
     app.get("/jobs/:id", async (req, res) => {
