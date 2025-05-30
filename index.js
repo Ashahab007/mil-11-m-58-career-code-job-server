@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
-// 15.0 mannually some data is input in data base. For this first go to mongodb server => cluster => browse collection => create database => fill the Database Name => Collection Name => then create. After created, in jobs u will find insert applicationument. click on it and delete any data like ObjectID is present then paste ur data.
+// 15.0 manually some data is input in data base. For this first go to mongodb server => cluster => browse collection => create database => fill the Database Name => Collection Name => then create. After created, in jobs u will find insert application document. click on it and delete any data like ObjectID is present then paste ur data.
 
 // 14.2 middleware
 app.use(cors());
@@ -60,6 +60,7 @@ async function run() {
       if (email) {
         query.hremail = email;
       }
+      // 28.6
       const cursor = await jobsCollections.find(query).toArray(); //now u can check in browser url http://localhost:3000/jobs?email=job.hr@cob.com
 
       // 18.2 commented due to we will send the data by 28.4 conditionally
