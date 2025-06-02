@@ -1,4 +1,5 @@
 // 14.0 iniitial server setup by $ mkdir mil-11-m-58-career-code-job-server => cd mil-11-m-58-career-code-job-server =>  npm init => then install in one command "npm i express mongodb nodemon cors dotenv"
+
 // 14.1 import cors express and run app and setup port
 const cors = require("cors");
 const express = require("express");
@@ -56,6 +57,7 @@ async function run() {
       const email = req.query.email;
       // 28.5 get an empty object for 18.2 operation i.e user email is absence it will show the all jobs data
       const query = {};
+
       // 28.6 if user (recruiter) is present
       if (email) {
         query.hremail = email;
@@ -99,7 +101,7 @@ async function run() {
 
       const result = await applicationsCollections.find(query).toArray();
 
-      // 26.0 But my requirement is show the job data that the applicant's applied (this is the bad method but we have to know)
+      // 26.0 But my requirement is show the job data in my Application page that the applicant's applied  (this is the bad method but we have to know)
       for (const application of result) {
         const jobId = application.jobId; //set the job id for query
         const jobQuery = { _id: new ObjectId(jobId) };
