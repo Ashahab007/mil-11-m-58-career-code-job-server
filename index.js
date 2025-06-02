@@ -55,7 +55,7 @@ async function run() {
     app.get("/jobs", async (req, res) => {
       // 28.4
       const email = req.query.email;
-      // 28.5 get an empty object for 18.2 operation i.e user email is absence it will show the all jobs data
+      // 28.5 get an empty object for 18.2 operation i.e if without user email it will show the all jobs data
       const query = {};
 
       // 28.6 if user (recruiter) is present
@@ -103,12 +103,14 @@ async function run() {
 
       // 26.0 But my requirement is show the job data in my Application page that the applicant's applied  (this is the bad method but we have to know)
       for (const application of result) {
-        const jobId = application.jobId; //set the job id for query
+        const jobId = application.jobId; //as we send the jobId with  the each applications and set that jobId with the application to find the specific job that applicants apply
         const jobQuery = { _id: new ObjectId(jobId) };
-        const job = await jobsCollections.findOne(jobQuery);
-        application.title = job.title;
-        application.company = job.company;
+        const job = await jobsCollections.findOne(jobQuery); //now find that specific job by jobId in jobsCollections
+        application.title = job.title; //set the found job title with application
+        application.company = job.company; //set the found job company name with application
         application.company_logo = job.company_logo;
+        //set the found job company name with application and send as result via response. these three job data data will be found in applicationsPromise in client side with client application form data
+        application.location = job.location;
       }
 
       // 24.3
@@ -117,6 +119,7 @@ async function run() {
     });
 
     // 29.4 creating the api of view applications i.e how many applicants are apply for current jobs
+    // Note: এখানে মাঝখানে /job/ নেওয়া হয়েছে জাতে আগের app.get("/applications"... এর সাথে মিলে না যায়।
     app.get("/applications/job/:job_id", async (req, res) => {
       //একটা application এর particular job এর id গুলো নিব।
       const job_id = req.params.job_id;
